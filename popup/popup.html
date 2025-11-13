@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mail Support</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📧 Mail Support</h1>
+      <p class="subtitle">메일 작성 도우미</p>
+    </header>
+
+    <main>
+      <!-- API Key Status -->
+      <div id="apiKeyWarning" class="warning-box" style="display: none;">
+        <p>⚠️ API 키가 설정되지 않았습니다.</p>
+        <button id="goToSettingsBtn" class="btn-link">설정 페이지로 이동</button>
+      </div>
+
+      <!-- Mode Selection -->
+      <div class="section">
+        <h2>작업 모드 선택</h2>
+        <div class="mode-buttons">
+          <button id="mode1Btn" class="mode-btn" data-mode="1">
+            <div class="mode-icon">✓</div>
+            <div class="mode-title">모드 1</div>
+            <div class="mode-desc">맞춤법 및 문법 검사</div>
+          </button>
+
+          <button id="mode2Btn" class="mode-btn" data-mode="2">
+            <div class="mode-icon">✏️</div>
+            <div class="mode-title">모드 2</div>
+            <div class="mode-desc">내용 수정 및 추천</div>
+          </button>
+
+          <button id="mode3Btn" class="mode-btn" data-mode="3">
+            <div class="mode-icon">🌐</div>
+            <div class="mode-title">모드 3</div>
+            <div class="mode-desc">한↔영 통역</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Selected Text Preview -->
+      <div class="section">
+        <h3>선택된 텍스트</h3>
+        <div id="selectedTextPreview" class="text-preview">
+          텍스트를 선택한 후 모드를 선택하세요.
+        </div>
+      </div>
+
+      <!-- Result Display -->
+      <div id="resultSection" class="section" style="display: none;">
+        <h3>결과</h3>
+        <div id="resultText" class="result-box"></div>
+        <div class="action-buttons">
+          <button id="copyResultBtn" class="btn btn-secondary">📋 복사</button>
+          <button id="clearResultBtn" class="btn btn-secondary">🗑️지우기</button>
+        </div>
+      </div>
+
+      <!-- Status -->
+      <div class="section">
+        <div id="status" class="status">준비됨</div>
+      </div>
+
+      <!-- Settings Button -->
+      <div class="section">
+        <button id="settingsBtn" class="btn btn-settings">⚙️ 설정</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
