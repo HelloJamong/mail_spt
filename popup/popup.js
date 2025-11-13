@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
           break;
       }
 
-      // Call Gemini API (placeholder - actual implementation will be added later)
+      // Call Gemini API
       const result = await callGeminiAPI(apiKey, prompt);
 
       // Display result
@@ -148,17 +148,52 @@ document.addEventListener('DOMContentLoaded', function() {
       resultSection.style.display = 'block';
       updateStatus('✓ 완료', 'success');
 
+      // For Mode 1, automatically replace selected text
+      if (mode === 1 && selectedText) {
+        replaceTextInPage(result);
+      }
+
     } catch (error) {
       updateStatus('❌ 오류: ' + error.message, 'error');
       console.error('Processing error:', error);
     }
   }
 
-  // Call Gemini API (placeholder)
+  // Call Gemini API via background script
   async function callGeminiAPI(apiKey, prompt) {
-    // This is a placeholder. The actual API call will be implemented later.
-    // For now, just return a sample response
-    return '[처리 결과가 여기에 표시됩니다]\n\n선택한 모드: ' + selectedMode + '\n프롬프트: ' + prompt.substring(0, 100) + '...';
+    return new Promise((resolve, reject) => {
+      chrome.runtime.sendMessage({
+        action: 'callGeminiAPI',
+        apiKey: apiKey,
+        prompt: prompt
+      }, function(response) {
+        if (response && response.success) {
+          resolve(response.text);
+        } else {
+          reject(new Error(response?.error || 'API 호출 실패'));
+        }
+      });
+    });
+  }
+
+  // Replace text in the page (Mode 1)
+  async function replaceTextInPage(newText) {
+    try {
+      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+      chrome.tabs.sendMessage(tab.id, {
+        action: 'replaceSelectedText',
+        newText: newText
+      }, function(response) {
+        if (chrome.runtime.lastError) {
+          console.error('Replace text error:', chrome.runtime.lastError);
+        } else if (response && response.success) {
+          console.log('Text replaced successfully');
+        }
+      });
+    } catch (error) {
+      console.error('Error replacing text:', error);
+    }
   }
 
   // Copy result to clipboard

@@ -5,7 +5,8 @@
   "description": "메일 작성 시 문법 검사, 내용 정리, 통역을 제공하는 도우미",
   "permissions": [
     "storage",
-    "activeTab"
+    "activeTab",
+    "contextMenus"
   ],
   "host_permissions": [
     "https://generativelanguage.googleapis.com/*"
